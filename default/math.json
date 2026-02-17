@@ -1,0 +1,51 @@
+{
+  "agent_role": "ci_workflow_16generator",
+  "repository": {
+    "url": "https://github.com/lakshmi1212/Example103",
+    "default_branch": "main",
+    "feature_branch": "Feature1"
+  },
+  "workflow": {
+    "file_path": ".github/workflows/ci.yml",
+    "name": "CI Pipeline"
+  },
+  "triggers": {
+    "push": ["Feature1"],
+    "pull_request": ["main"]
+  },
+  "runtime": {
+    "language": "python",
+    "version": "3.10"
+  },
+  "dependencies": [
+    "pytest==8.0.0",
+    "pytest-html==4.1.1"
+  ],
+  "test_execution": {
+    "test_directory": "tests",
+    "pytest_command": "python -m pytest tests/ -v --tb=short --junitxml=reports/report.xml --html=reports/report.html --self-contained-html",
+    "fail_on_error": true
+  },
+  "test_reports": {
+    "enabled": true,
+    "report_directory": "reports",
+    "formats": ["junit", "html"],
+    "junit_file": "reports/report.xml",
+    "html_file": "reports/report.html"
+  },
+  "s3_upload": {
+    "enabled": true,
+    "bucket_name": "ci-test-results-bucket",
+    "prefix": "pytest-reports",
+    "region": "us-east-1",
+    "versioning_strategy": "commit_sha"
+  },
+  "constraints": {
+    "modify_source_files": false,
+    "modify_test_files": false
+  },
+  "commit": {
+    "enabled": true,
+    "message": "Add CI workflow for Python tests"
+  }
+}
