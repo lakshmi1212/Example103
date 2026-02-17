@@ -47,5 +47,34 @@
   "commit": {
     "enabled": true,
     "message": "Add CI workflow for Python tests"
-  }
+  },
+  "jobs": [
+    {
+      "job_id": "ci_python_tests",
+      "job_name": "Run Python Tests",
+      "runs_on": "ubuntu-latest",
+      "steps": [
+        {
+          "step_name": "Checkout Code",
+          "action_type": "uses",
+          "action": "actions/checkout@v4"
+        },
+        {
+          "step_name": "Set up Python",
+          "action_type": "uses",
+          "action": "actions/setup-python@v4"
+        },
+        {
+          "step_name": "Install Dependencies",
+          "action_type": "run",
+          "command": "pip install -r default/requirements.txt"
+        },
+        {
+          "step_name": "Run Pytest",
+          "action_type": "run",
+          "command": "python -m pytest tests/ -v --tb=short --junitxml=reports/report.xml --html=reports/report.html --self-contained-html"
+        }
+      ]
+    }
+  ]
 }
