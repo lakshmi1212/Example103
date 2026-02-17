@@ -29,16 +29,19 @@
   "test_reports": {
     "enabled": true,
     "report_directory": "reports",
-    "formats": ["junit", "html"],
+    "formats": [
+      "junit",
+      "html"
+    ],
     "junit_file": "reports/report.xml",
     "html_file": "reports/report.html"
   },
   "s3_upload": {
-    "enabled": true,
-    "bucket_name": "ci-test-results-bucket",
-    "prefix": "pytest-reports",
-    "region": "us-east-1",
-    "versioning_strategy": "commit_sha"
+    "enabled": false,
+    "bucket_name": "",
+    "prefix": "",
+    "region": "",
+    "versioning_strategy": ""
   },
   "constraints": {
     "modify_source_files": false,
@@ -50,27 +53,27 @@
   },
   "jobs": [
     {
-      "job_id": "ci_python_tests",
-      "job_name": "Run Python Tests",
+      "job_id": "test",
+      "job_name": "Run Pytest",
       "runs_on": "ubuntu-latest",
       "steps": [
         {
-          "step_name": "Checkout Code",
+          "step_name": "Checkout code",
           "action_type": "uses",
           "action": "actions/checkout@v4"
         },
         {
           "step_name": "Set up Python",
           "action_type": "uses",
-          "action": "actions/setup-python@v4"
+          "action": "actions/setup-python@v5"
         },
         {
-          "step_name": "Install Dependencies",
+          "step_name": "Install dependencies",
           "action_type": "run",
           "command": "pip install -r default/requirements.txt"
         },
         {
-          "step_name": "Run Pytest",
+          "step_name": "Run tests",
           "action_type": "run",
           "command": "python -m pytest tests/ -v --tb=short --junitxml=reports/report.xml --html=reports/report.html --self-contained-html"
         }
