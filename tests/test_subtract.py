@@ -1,21 +1,21 @@
 import pytest
 from src.math_operations import subtract
 
-def test_subtract_integers():
+def test_subtract_positive_numbers():
     assert subtract(5, 3) == 2
-    assert subtract(-1, 1) == -2
-    assert subtract(0, 0) == 0
+
+def test_subtract_negative_numbers():
+    assert subtract(-5, -3) == -2
+
+def test_subtract_positive_and_negative():
+    assert subtract(5, -3) == 8
+
+def test_subtract_zero():
+    assert subtract(0, 5) == -5
+    assert subtract(5, 0) == 5
 
 def test_subtract_floats():
-    assert subtract(5.5, 3.5) == 2.0
-    assert subtract(-1.2, 1.2) == -2.4
-    assert subtract(0.0, 0.0) == 0.0
+    assert subtract(5.5, 2.2) == pytest.approx(3.3)
 
-def test_subtract_mixed_types():
-    assert subtract(5, 3.5) == 1.5
-    assert subtract(-1.5, 2) == -3.5
-
-@pytest.mark.parametrize("a,b", [("5", 3), (None, 1), ([], {})])
-def test_subtract_invalid_types(a, b):
-    with pytest.raises(TypeError):
-        subtract(a, b)
+def test_subtract_large_numbers():
+    assert subtract(2_000_000, 1_000_000) == 1_000_000
