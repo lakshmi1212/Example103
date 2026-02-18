@@ -37,11 +37,11 @@
     "html_file": "reports/report.html"
   },
   "s3_upload": {
-    "enabled": false,
-    "bucket_name": "",
-    "prefix": "",
-    "region": "",
-    "versioning_strategy": ""
+    "enabled": true,
+    "bucket_name": "ci-test-results-bucket",
+    "prefix": "pytest-reports",
+    "region": "us-east-1",
+    "versioning_strategy": "commit_sha"
   },
   "constraints": {
     "modify_source_files": false,
@@ -50,34 +50,5 @@
   "commit": {
     "enabled": true,
     "message": "Add CI workflow for Python tests"
-  },
-  "jobs": [
-    {
-      "job_id": "test",
-      "job_name": "Run Pytest",
-      "runs_on": "ubuntu-latest",
-      "steps": [
-        {
-          "step_name": "Checkout code",
-          "action_type": "uses",
-          "action": "actions/checkout@v4"
-        },
-        {
-          "step_name": "Set up Python",
-          "action_type": "uses",
-          "action": "actions/setup-python@v5"
-        },
-        {
-          "step_name": "Install dependencies",
-          "action_type": "run",
-          "command": "pip install -r default/requirements.txt"
-        },
-        {
-          "step_name": "Run tests",
-          "action_type": "run",
-          "command": "python -m pytest tests/ -v --tb=short --junitxml=reports/report.xml --html=reports/report.html --self-contained-html"
-        }
-      ]
-    }
-  ]
+  }
 }
